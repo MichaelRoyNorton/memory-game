@@ -2,13 +2,12 @@
  * Create a list that holds all of your cards
  */
 
+ let cardDeck = ['fa-diamond', 'fa-diamond', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-anchor', 'fa-anchor', 'fa-bolt', 'fa-bolt', 'fa-cube', 'fa-cube', 'fa-leaf', 'fa-leaf', 'fa-bicycle', 'fa-bicycle', 'fa-bomb', 'fa-bomb']
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+ let openCard = [];
+ let moves = 0;
+ let matchedCards = 0;
+ let starCount = 3;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -21,18 +20,162 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
+function deal() {
+  let newCardDeck = shuffle(cardDeck);
+  newCardDeck.forEach(function(c) {
+    let list = document.createElement('li');
+    list.classList.add('card');
+    let item = document.createElement('i');
+    item.classList.add('fa', c);
+    list.appendChild(item);
+    document.querySelector('.deck').appendChild(list);
+  })
+};
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+deal();
+
+// Add event listener to cards
+let cards = document.getElementsByClassName('card');
+for (var i = 0 ; i < cards.length ; i++) {
+  cards[i].addEventListener('click', showCard)
+}
+
+// Show cards on click and check if they match
+function showCard() {
+  this.removeEventListener('click', showCard);
+  this.classList.add('show', 'open');
+  openCard.push(this);
+  if (openCard.length === 2) {
+    updateCounter();
+    if (openCard[0].firstChild.classList.value === openCard[1].firstChild.classList.value) {
+      openCard[0].classList.add('match');
+      openCard[1].classList.add('match');
+      matchedCards++;
+      clearOpenCard();
+      openModal();
+    } else {
+      setTimeout(hideCard, 500);
+      setTimeout(clearOpenCard, 500);
+    }
+  }
+}
+
+// Hide cards if they do not match
+function hideCard() {
+  openCard[0].classList.remove('show', 'open');
+  openCard[1].classList.remove('show', 'open');
+  let cards = document.getElementsByClassName('card');
+  for (var i = 0 ; i < cards.length ; i++) {
+    cards[i].addEventListener('click', showCard);
+  }
+}
+
+// Remove cards from openCard if no match
+function clearOpenCard() {
+  openCard = [];
+}
+
+// Updates move counter and skill level
+function updateCounter() {
+  moves++;
+  let displayMoves = document.getElementById('moves');
+  displayMoves.innerHTML = moves;
+  let stars = document.getElementsByClassName('fa-star');
+  if (moves > 10) {
+    stars[0].classList.add('hide');
+    starCount = 2;
+    if (moves > 18) {
+      stars[1].classList.add('hide');
+      starCount = 1;
+    }
+  }
+}
+
+// Restart Game
+let restart = document.getElementById('restart');
+restart.addEventListener('click', restartGame);
+function restartGame() {
+  location.reload();
+}
+
+
+// Timer
+let clickDeck = document.getElementsByClassName('deck')[0]
+clickDeck.addEventListener('click', start);
+
+let status = 0;
+let time = 0;
+
+function start() {
+  status = 1;
+  timer();
+  clickDeck.removeEventListener('click', start);
+}
+
+
+function stop() {
+  status = 0;
+}
+
+function timer() {
+  if(status == 1) {
+    setTimeout(function() {
+      time++;
+      let min = Math.floor(time/100/60);
+      let sec = Math.floor(time/100);
+      let mSec = time % 100;
+
+      if(min < 10) {
+        min = '0' + min;
+      }
+      if(sec >= 60) {
+        sec = sec % 60;
+      }
+      if(sec < 10) {
+        sec = '0' + sec;
+      }
+
+      document.getElementById('timer').innerHTML = min + ':' + sec + ':' + mSec;
+      timer();
+    }, 10)
+  }
+}
+
+// Open modal on Win
+let modal = document.getElementById('winningModal');
+let fullTime = document.getElementById('timer').innerHTML
+let displayStats = document.getElementsByClassName('winning-stats')[0];
+function openModal() {
+  if (matchedCards === 8) {
+    // stops Timer
+    stop();
+    modal.style.display = 'block';
+    //  get time
+    let finalTime = document.getElementById('timer').innerHTML;
+    // Display stats
+    displayStats.innerHTML = `in ${finalTime} with a total of ${starCount} stars in ${moves} moves`
+  }
+}
+
+// Close Modal
+let closeBtn = document.getElementsByClassName('close-btn')[0];
+closeBtn.addEventListener('click', closeModal);
+
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// Close Modal  if outside clicked
+window.addEventListener('click', clickOutside)
+function clickOutside(e) {
+  if(e.target == modal) {
+    modal.style.display= 'none';
+  }
+}
+
+// Play Again
+let playAgainBtn = document.getElementById('playAgainBtn');
+playAgainBtn.addEventListener('click', restartGame);

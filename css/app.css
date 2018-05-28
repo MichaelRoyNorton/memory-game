@@ -33,6 +33,10 @@ h1 {
     font-weight: 300;
 }
 
+#timer {
+  margin-left: 25px;
+}
+
 /*
  * Styles for the deck of cards
  */
@@ -106,4 +110,78 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+/* Modal styles */
+
+.winning-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: #f4f4f4;
+  margin: 15% auto;
+  width: 30%;
+  box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+  animation-name: modalOpen;
+  animation-duration: 1s;
+}
+
+.modal-header {
+  background-color: #02ccba;
+  padding: 15px;
+  text-align: center;
+  color: #fff;
+}
+
+.modal-body {
+  padding: 25px;
+  text-align: center;
+}
+
+.modal-footer {
+  padding-bottom: 25px;
+  text-align: center;
+}
+
+.play-again {
+  padding: 10px 25px;
+  border-radius: 15px;
+  background-color: #02ccba;
+  color: #fff;
+}
+
+.play-again:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-btn {
+  color: #fff;
+  float: right;
+  font-size: 30px;
+}
+
+.close-btn:hover,.close-btn:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@keyframes modalOpen {
+  from {opacity: 0}
+  to {opacity: 1}
 }
