@@ -15,6 +15,6 @@ Flip the card by clicking it. If 2 flipped cards are the same they will remain o
 ## Contributing
 
 Feel free to contribute:
-  Fork the repo or clone the project
-  Create a branch
-  Submit a pull request so changes can be reviewed
+1. Fork the repo or clone the project
+2. Create a branch
+3. Submit a pull request so changes can be reviewed
