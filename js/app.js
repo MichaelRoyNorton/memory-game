@@ -52,12 +52,14 @@ function showCard() {
   if (openCard.length === 2) {
     updateCounter();
     if (openCard[0].firstChild.classList.value === openCard[1].firstChild.classList.value) {
-      openCard[0].classList.add('match');
-      openCard[1].classList.add('match');
+      openCard[0].classList.add('match', 'correct');
+      openCard[1].classList.add('match', 'correct');
       matchedCards++;
       clearOpenCard();
       openModal();
     } else {
+      openCard[0].classList.add('wrong');
+      openCard[1].classList.add('wrong');
       setTimeout(hideCard, 500);
       setTimeout(clearOpenCard, 500);
     }
@@ -66,8 +68,8 @@ function showCard() {
 
 // Hide cards if they do not match
 function hideCard() {
-  openCard[0].classList.remove('show', 'open');
-  openCard[1].classList.remove('show', 'open');
+  openCard[0].classList.remove('show', 'open', 'wrong');
+  openCard[1].classList.remove('show', 'open', 'wrong');
   let cards = document.getElementsByClassName('card');
   for (var i = 0 ; i < cards.length ; i++) {
     cards[i].addEventListener('click', showCard);

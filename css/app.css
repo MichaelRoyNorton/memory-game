@@ -181,9 +181,52 @@ h1 {
   cursor: pointer;
 }
 
+/* Animation */
+
+.wrong {
+  animation-name: wrong;
+  animation-duration: 0.5s;
+  background-color: #d03939 !important;
+}
+
+.correct {
+  animation-name: correct;
+  animation-duration: 0.5s;
+}
+
 @keyframes modalOpen {
   from {opacity: 0}
   to {opacity: 1}
+}
+
+@keyframes wrong {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes correct {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.25, 1.25, 1.25);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 /* Media Queries */
