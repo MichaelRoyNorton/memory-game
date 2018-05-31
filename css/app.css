@@ -133,7 +133,7 @@ h1 {
 .modal-content {
   background-color: #f4f4f4;
   margin: 15% auto;
-  width: 30%;
+  width: 50%;
   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
   animation-name: modalOpen;
   animation-duration: 1s;
@@ -184,4 +184,72 @@ h1 {
 @keyframes modalOpen {
   from {opacity: 0}
   to {opacity: 1}
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 715px) {
+  .deck {
+    width: 500px;
+    min-height: 520px;
+  }
+
+  .deck .card {
+    width: 90px;
+    height: 90px;
+  }
+
+  .deck .card.show {
+    font-size: 25px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .deck {
+    width: 400px;
+    min-height: 420px;
+    padding: 24px;
+  }
+
+  .deck .card {
+    width: 75px;
+    height: 75px;
+  }
+
+  .deck .card.show {
+    font-size: 22px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .deck {
+    width: 300px;
+    min-height: 320px;
+    padding: 16px;
+  }
+
+  .deck .card {
+    width: 55px;
+    height: 55px;
+  }
+
+  .deck .card.show {
+    font-size: 18px;
+  }
+
+  .score-panel {
+    width: 90%;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
 }
